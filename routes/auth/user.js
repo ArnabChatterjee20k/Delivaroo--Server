@@ -10,9 +10,9 @@ const authRouter = Router();
 
 authRouter.get("/", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password } = req.query;
     if (!email || !password)
-      return res.status(403).json({ status: "credential missing" });
+    return res.status(403).json({ status: "credential missing" });
     const user = await User.findOne({ email});
     if (user) {
       const isAuth = await compareHash(user.password,password)
