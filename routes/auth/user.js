@@ -30,8 +30,9 @@ authRouter.post("/", async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
+    console.log(name)
     const userExists = await getUserByEmail(email);
-    if (userExists) return res.status(200).json({ status: "User Exists!" });
+    if (userExists) return res.status(403).json({ status: "User Exists!" });
 
     const hashedPassword = await genHash(password);
     const user = new User({ ...req.body, password: hashedPassword });

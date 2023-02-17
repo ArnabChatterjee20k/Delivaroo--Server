@@ -12,7 +12,7 @@ orderRouter.get("/", checkToken, async (req, res) => {
   if (user) {
     return res.status(200).json(user.orders);
   }
-  return res.status(404);
+  res.sendStatus(404);
 });
 
 orderRouter.post("/", checkToken, async (req, res) => {
@@ -20,12 +20,12 @@ orderRouter.post("/", checkToken, async (req, res) => {
   const user = await User.findById(id);
   if (user) {
     const body = req.body;
-    const order = await new Orders({...body,user:user}).save();
+    const order = await new Orders({items:body,user:user}).save()
     user.orders.push(order._id)
     user.save()
     return res.status(200).json({ status: order });
   }
-  return res.status(404);
+  res.sendStatus(404);
 });
 
 export default orderRouter;
